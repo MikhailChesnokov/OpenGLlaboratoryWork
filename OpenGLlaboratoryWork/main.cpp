@@ -1,11 +1,11 @@
 #include <cstdlib>
-#include <GLFW/glfw3.h>
 
 #include "Application.h"
+#include "simple_triangle.h"
 
 int main()
 {
-	const auto app = new application(800, 600, "MyApp");
+	const auto app = new simple_triangle(1024, 768, "MyApp");
 	app->run();
 	delete app;
 
