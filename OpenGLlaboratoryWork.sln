@@ -7,12 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLlaboratoryWork", "Ope
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
 		Debug|x86 = Debug|x86
+		Release|Win32 = Release|Win32
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Debug|Win32.Build.0 = Debug|Win32
 		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Debug|x86.ActiveCfg = Debug|Win32
 		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Debug|x86.Build.0 = Debug|Win32
+		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Release|Win32.ActiveCfg = Release|Win32
+		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Release|Win32.Build.0 = Release|Win32
 		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Release|x86.ActiveCfg = Release|Win32
 		{C562FF09-79CC-4201-9CB1-8EAE6E753D2F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
