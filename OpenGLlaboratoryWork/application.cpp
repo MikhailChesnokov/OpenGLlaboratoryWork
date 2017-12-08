@@ -1,5 +1,12 @@
 ﻿#include "Application.h"
+
+#undef GL_VERSION_1_1
+
+#include <gl/gl3w.h>
+#include <GLFW/glfw3.h>
+
 #include <cstdlib>
+#include <cstdio>
 
 application* application::app = nullptr;
 
@@ -9,6 +16,7 @@ application::application(const int width, const int height, const char* title)
 
 	if (!glfwInit())
 	{
+		printf("Cannot initialize GLFW\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -20,6 +28,20 @@ application::application(const int width, const int height, const char* title)
 	glfwSwapInterval(1);
 
 	init_callbacks();
+
+	if (gl3wInit())
+	{
+		printf("Cannot initialize gl3w\n");
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+	if (!gl3wIsSupported(appinfo_.major_version, appinfo_.minor_version))
+	{
+		printf("Initialize fail: OpenGL %s.%s unsupported\n", appinfo_.major_version, appinfo_.minor_version);
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+	printf("Initialize successful: OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 application::~application()
@@ -38,7 +60,7 @@ void application::run() const
 
 		glfwSwapBuffers(window_);
 		glfwPollEvents();
-	} 
+	}
 	while (glfwGetKey(window_, GLFW_KEY_ESCAPE) == GLFW_RELEASE &&
 		   glfwWindowShouldClose(window_) != GL_TRUE);
 
@@ -51,7 +73,7 @@ void application::init_app_params(const int width, const int height, const char*
 	appinfo_.window_height = height;
 
 	appinfo_.major_version = 4;
-	appinfo_.minor_version = 0;
+	appinfo_.minor_version = 6;
 
 	appinfo_.window_title = title;
 }
@@ -72,6 +94,7 @@ void application::create_window()
 	window_ = glfwCreateWindow(appinfo_.window_width, appinfo_.window_height, appinfo_.window_title, nullptr, nullptr);
 	if (!window_)
 	{
+		printf("Cannot initialize GLFW Window\n");
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
