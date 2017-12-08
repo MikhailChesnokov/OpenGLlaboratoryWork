@@ -1,0 +1,2 @@
+Place this files in this directory:
+	glfw3.lib

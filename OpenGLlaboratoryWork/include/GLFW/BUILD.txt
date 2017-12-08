@@ -1,0 +1,3 @@
+Place this files in this directory:
+	glfw3.h
+	glfw3native.h
