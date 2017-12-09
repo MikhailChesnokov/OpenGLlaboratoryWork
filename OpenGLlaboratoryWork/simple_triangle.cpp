@@ -7,45 +7,13 @@
 
 void simple_triangle::start()
 {
-
-	static const char * vs_source[] =
-	{
-		"#version 460 core                                                 \n"
-		"                                                                  \n"
-		"void main(void)                                                   \n"
-		"{                                                                 \n"
-		"    const vec4 vertices[] = vec4[](vec4( 0.4, -0.4, 0.5, 1.0),    \n"
-		"                                   vec4(-0.4, -0.4, 0.5, 1.0),    \n"
-		"                                   vec4( 0.4,  0.4, 0.5, 1.0));   \n"
-		"                                                                  \n"
-		"    gl_Position = vertices[gl_VertexID];                          \n"
-		"}                                                                 \n"
-	};
-
-	static const char * fs_source[] =
-	{
-		"#version 460 core                                                 \n"
-		"                                                                  \n"
-		"out vec4 color;                                                   \n"
-		"                                                                  \n"
-		"void main(void)                                                   \n"
-		"{                                                                 \n"
-		"    color = vec4(1.0, 0.0, 1.0, 1.0);                             \n"
-		"}                                                                 \n"
-	};
+	const GLuint vs = load_shader("../OpenGLlaboratoryWork/shaders/triangle.vs.glsl", GL_VERTEX_SHADER);
+	const GLuint fs = load_shader("../OpenGLlaboratoryWork/shaders/triangle.fs.glsl", GL_FRAGMENT_SHADER);
 
 	program_ = glCreateProgram();
 
-	const GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment_shader, 1, fs_source, nullptr);
-	glCompileShader(fragment_shader);
-
-	const GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, vs_source, nullptr);
-	glCompileShader(vs);
-
 	glAttachShader(program_, vs);
-	glAttachShader(program_, fragment_shader);
+	glAttachShader(program_, fs);
 
 	glLinkProgram(program_);
 
@@ -55,7 +23,6 @@ void simple_triangle::start()
 
 void simple_triangle::render()
 {
-
 	static const GLfloat white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	glClearBufferfv(GL_COLOR, 0, white);
 

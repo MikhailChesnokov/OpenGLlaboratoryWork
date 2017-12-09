@@ -6,7 +6,9 @@
 #include <GLFW/glfw3.h>
 
 #include <cstdlib>
-#include <cstdio>
+#include <istream>
+#include <fstream>
+#include <iostream>
 
 application* application::app = nullptr;
 
@@ -16,7 +18,7 @@ application::application(const int width, const int height, const char* title)
 
 	if (!glfwInit())
 	{
-		printf("Cannot initialize GLFW\n");
+		std::cerr << "Cannot initialize GLFW" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -31,17 +33,17 @@ application::application(const int width, const int height, const char* title)
 
 	if (gl3wInit())
 	{
-		printf("Cannot initialize gl3w\n");
+		std::cerr << "Cannot initialize gl3w" << std::endl;
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 	if (!gl3wIsSupported(appinfo_.major_version, appinfo_.minor_version))
 	{
-		printf("Initialize fail: OpenGL %s.%s unsupported\n", appinfo_.major_version, appinfo_.minor_version);
+		std::cerr << "Initialize fail: OpenGL " << appinfo_.major_version << "." << appinfo_.minor_version << "unsupported" << std::endl;
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	printf("Initialize successful: OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+	std::cout << "Initialize successful: OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 }
 
 application::~application()
@@ -65,6 +67,51 @@ void application::run() const
 		   glfwWindowShouldClose(window_) != GL_TRUE);
 
 	app->finish();
+}
+
+GLuint application::load_shader(const char* file_name, const GLenum type)
+{
+	char * shader_code  = new char[8192];
+	memset(shader_code, 0, 8192);
+
+	std::ifstream shader_file(file_name);
+	
+	if (shader_file.is_open()) 
+	{
+		const std::streamoff size = shader_file.seekg(0, std::ios::end).tellg();
+		shader_file.seekg(0);
+		shader_file.read(shader_code, size);
+		shader_file.close();
+	}
+
+	const GLuint shader = glCreateShader(type);
+
+	if (!shader) {
+		std::cout << "Fail shader allocation" << std::endl;
+		return 0;
+	}
+
+	glShaderSource(shader, 1, &shader_code, nullptr);
+
+	delete[] shader_code;
+
+	glCompileShader(shader);
+
+	GLint compilation_status = 0;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &compilation_status);
+
+	if (!compilation_status)
+	{
+		std::cout << "Shader compilation error" <<std::endl;
+		
+		char buffer[8192];
+		glGetShaderInfoLog(shader, 8192, nullptr, buffer);
+		std::cout << buffer << std::endl;
+
+		glDeleteShader(shader);
+	}
+
+	return shader;
 }
 
 void application::init_app_params(const int width, const int height, const char* title)
@@ -94,7 +141,7 @@ void application::create_window()
 	window_ = glfwCreateWindow(appinfo_.window_width, appinfo_.window_height, appinfo_.window_title, nullptr, nullptr);
 	if (!window_)
 	{
-		printf("Cannot initialize GLFW Window\n");
+		std::cerr << "Cannot initialize GLFW Window" << std::endl;
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}

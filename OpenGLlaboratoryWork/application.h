@@ -16,6 +16,8 @@ public:
 
 	virtual void finish() {}
 
+	static GLuint load_shader(const char* file, const GLenum type);
+
 	struct application_params
 	{
 		const char* window_title;
