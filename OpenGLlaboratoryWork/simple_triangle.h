@@ -9,7 +9,7 @@ public:
 
 	void start() override;
 
-	void render() override;
+	void render(const double current_time) override;
 
 	void finish() override;
 

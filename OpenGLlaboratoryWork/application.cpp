@@ -9,6 +9,7 @@
 #include <istream>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 application* application::app = nullptr;
 
@@ -58,7 +59,7 @@ void application::run() const
 
 	do
 	{
-		app->render();
+		app->render(glfwGetTime());
 
 		glfwSwapBuffers(window_);
 		glfwPollEvents();
@@ -97,18 +98,24 @@ GLuint application::load_shader(const char* file_name, const GLenum type)
 
 	glCompileShader(shader);
 
-	GLint compilation_status = 0;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &compilation_status);
+	GLint isCompiled = 0;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
 
-	if (!compilation_status)
+	if (isCompiled == GL_FALSE)
 	{
 		std::cout << "Shader compilation error" <<std::endl;
 		
-		char buffer[8192];
-		glGetShaderInfoLog(shader, 8192, nullptr, buffer);
-		std::cout << buffer << std::endl;
+		GLint maxLength = 0;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+		std::vector<GLchar> buffer(maxLength);
+		glGetShaderInfoLog(shader, maxLength, &maxLength, &buffer[0]);
+
+		std::cout << buffer.data() << std::endl;
 
 		glDeleteShader(shader);
+
+		return 0;
 	}
 
 	return shader;

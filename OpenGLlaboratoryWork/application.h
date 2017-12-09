@@ -12,7 +12,7 @@ public:
 
 	virtual void start() {}
 
-	virtual void render() {}
+	virtual void render(double time) {}
 
 	virtual void finish() {}
 
