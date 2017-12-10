@@ -39,8 +39,8 @@ void simple_triangle::render(const double current_time)
 
 	GLfloat attributes[] =
 	{
-		static_cast<float>(cos(current_time)) * 0.5,
-		static_cast<float>(sin(current_time)) * 0.1,
+		static_cast<float>(cos(current_time)) * 0.5f,
+		static_cast<float>(sin(current_time)) * 0.1f,
 		0.0, 0.0
 	};
 
