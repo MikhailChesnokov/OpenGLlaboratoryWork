@@ -1,9 +1,10 @@
-﻿#include "Application.h"
-
-#undef GL_VERSION_1_1
-
-#include <gl/gl3w.h>
+﻿#pragma once
+#include <GL/gl3w.h>
+#pragma once
 #include <GLFW/glfw3.h>
+
+#pragma once
+#include "Application.h"
 
 #include <cstdlib>
 #include <istream>
@@ -19,32 +20,33 @@ application::application(const int width, const int height, const char* title)
 
 	if (!glfwInit())
 	{
-		std::cerr << "Cannot initialize GLFW" << std::endl;
+		std::cout << "Cannot initialize GLFW" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
 	init_app_params(width, height, title);
 
 	create_window();
-	
+
 	glfwMakeContextCurrent(window_);
-	glfwSwapInterval(1);
 
 	init_callbacks();
 
 	if (gl3wInit())
 	{
-		std::cerr << "Cannot initialize gl3w" << std::endl;
+		std::cout << "Cannot initialize gl3w" << std::endl;
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 	if (!gl3wIsSupported(appinfo_.major_version, appinfo_.minor_version))
 	{
-		std::cerr << "Initialize fail: OpenGL " << appinfo_.major_version << "." << appinfo_.minor_version << "unsupported" << std::endl;
+		std::cout << "Initialize fail: OpenGL " << appinfo_.major_version << "." << appinfo_.minor_version << "unsupported" <<
+			std::endl;
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	std::cout << "Initialize successful: OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+	std::cout << "Initialize successful: OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(
+		GL_SHADING_LANGUAGE_VERSION) << std::endl;
 }
 
 application::~application()
@@ -65,19 +67,19 @@ void application::run() const
 		glfwPollEvents();
 	}
 	while (glfwGetKey(window_, GLFW_KEY_ESCAPE) == GLFW_RELEASE &&
-		   glfwWindowShouldClose(window_) != GL_TRUE);
+		glfwWindowShouldClose(window_) != GL_TRUE);
 
 	app->finish();
 }
 
 GLuint application::load_shader(const char* file_name, const GLenum type)
 {
-	char * shader_code  = new char[8192];
+	char* shader_code = new char[8192];
 	memset(shader_code, 0, 8192);
 
 	std::ifstream shader_file(file_name);
-	
-	if (shader_file.is_open()) 
+
+	if (shader_file.is_open())
 	{
 		const std::streamoff size = shader_file.seekg(0, std::ios::end).tellg();
 		shader_file.seekg(0);
@@ -87,7 +89,8 @@ GLuint application::load_shader(const char* file_name, const GLenum type)
 
 	const GLuint shader = glCreateShader(type);
 
-	if (!shader) {
+	if (!shader)
+	{
 		std::cout << "Fail shader allocation" << std::endl;
 		return 0;
 	}
@@ -98,13 +101,21 @@ GLuint application::load_shader(const char* file_name, const GLenum type)
 
 	glCompileShader(shader);
 
+	if (!app->checkout_shader_compilation(shader))
+		return 0;
+
+	return shader;
+}
+
+GLboolean application::checkout_shader_compilation(const GLuint shader)
+{
 	GLint isCompiled = 0;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
 
 	if (isCompiled == GL_FALSE)
 	{
-		std::cout << "Shader compilation error" <<std::endl;
-		
+		std::cout << "Shader compilation error" << std::endl;
+
 		GLint maxLength = 0;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
@@ -115,10 +126,31 @@ GLuint application::load_shader(const char* file_name, const GLenum type)
 
 		glDeleteShader(shader);
 
-		return 0;
+		return GL_FALSE;
 	}
 
-	return shader;
+	return GL_TRUE;
+}
+
+GLboolean application::checkout_shader_link(const GLuint program)
+{
+	GLint isLinked = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, static_cast<int *>(&isLinked));
+	if (isLinked == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+		std::vector<GLchar> info_log(maxLength);
+		glGetProgramInfoLog(program, maxLength, &maxLength, &info_log[0]);
+
+		std::cout << info_log.data() << std::endl;
+
+		glDeleteProgram(program);
+
+		return GL_FALSE;
+	}
+	return GL_TRUE;
 }
 
 void application::init_app_params(const int width, const int height, const char* title)
@@ -127,7 +159,7 @@ void application::init_app_params(const int width, const int height, const char*
 	appinfo_.window_height = height;
 
 	appinfo_.major_version = 4;
-	appinfo_.minor_version = 6;
+	appinfo_.minor_version = 4;
 
 	appinfo_.window_title = title;
 }
@@ -144,11 +176,15 @@ void application::create_window()
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, appinfo_.major_version);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, appinfo_.minor_version);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, 0);
+	glfwWindowHint(GLFW_STEREO, 0);
 
 	window_ = glfwCreateWindow(appinfo_.window_width, appinfo_.window_height, appinfo_.window_title, nullptr, nullptr);
 	if (!window_)
 	{
-		std::cerr << "Cannot initialize GLFW Window" << std::endl;
+		std::cout << "Cannot initialize GLFW Window" << std::endl;
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}

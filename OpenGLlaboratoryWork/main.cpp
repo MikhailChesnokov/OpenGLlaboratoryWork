@@ -1,6 +1,5 @@
 #include <cstdlib>
 
-#include "Application.h"
 #include "simple_triangle.h"
 
 int main()

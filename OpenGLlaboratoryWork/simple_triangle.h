@@ -5,7 +5,9 @@ class simple_triangle : public application
 {
 public:
 	simple_triangle(const int width, const int height, const char* title)
-		: application(width, height, title), program_(0), vao_(0){}
+		: application(width, height, title), program_(0), vao_(0)
+	{
+	}
 
 	void start() override;
 

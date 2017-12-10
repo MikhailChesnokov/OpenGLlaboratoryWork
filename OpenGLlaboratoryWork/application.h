@@ -10,13 +10,26 @@ public:
 
 	virtual void run() const;
 
-	virtual void start() {}
 
-	virtual void render(double time) {}
+	virtual void start()
+	{
+	}
 
-	virtual void finish() {}
+	virtual void render(double time)
+	{
+	}
+
+	virtual void finish()
+	{
+	}
+
 
 	static GLuint load_shader(const char* file, const GLenum type);
+
+	static GLboolean checkout_shader_compilation(const GLuint shader);
+
+	static GLboolean checkout_shader_link(const GLuint program);
+
 
 	struct application_params
 	{
@@ -27,20 +40,28 @@ public:
 		int minor_version;
 	};
 
-	static application * app;
+	static application* app;
 protected:
 
 	application_params appinfo_;
-	GLFWwindow * window_;
+	GLFWwindow* window_;
 
 
-	virtual void on_key(int key, int action) {}
+	virtual void on_key(int key, int action)
+	{
+	}
 
-	virtual void on_resize(int width, int height) {}
+	virtual void on_resize(int width, int height)
+	{
+	}
 
-	virtual void on_mouse_button(int button, int action) {}
+	virtual void on_mouse_button(int button, int action)
+	{
+	}
 
-	virtual void on_mouse_move(int coord_x, int coords_y) {}
+	virtual void on_mouse_move(int coord_x, int coords_y)
+	{
+	}
 
 private:
 
