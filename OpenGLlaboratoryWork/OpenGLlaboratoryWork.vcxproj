@@ -79,7 +79,7 @@
       <SDLCheck>
       </SDLCheck>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)modules/gl3w/include;$(ProjectDir)modules/glfw/include;$(ProjectDir)modules/glm/glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)modules/gl3w/include;$(ProjectDir)modules/glfw/include;$(ProjectDir)modules/glm/glm/gtc;$(ProjectDir)modules/glm/glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -141,13 +141,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="cornell_box.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modules\gl3w\src\gl3w.c" />
     <ClCompile Include="simple_triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
+    <ClInclude Include="cornell_box.h" />
     <ClInclude Include="simple_triangle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\cornell_box\fs.glsl" />
+    <None Include="shaders\cornell_box\tcs.glsl" />
+    <None Include="shaders\cornell_box\tes.glsl" />
+    <None Include="shaders\cornell_box\vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

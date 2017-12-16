@@ -1,10 +1,10 @@
 #include <cstdlib>
 
-#include "simple_triangle.h"
+#include "cornell_box.h"
 
 int main()
 {
-	const auto app = new simple_triangle(1024, 768, "MyApp");
+	const auto app = new cornell_box(850, 850, "Box");
 	app->run();
 	delete app;
 
