@@ -4,7 +4,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="simple_triangle.cpp" />
-    <ClCompile Include="gl3w.c" />
+    <ClCompile Include="modules\gl3w\src\gl3w.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />

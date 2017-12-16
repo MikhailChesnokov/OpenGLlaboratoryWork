@@ -1,0 +1,9 @@
+[submodule "glfw"]
+	path = OpenGLlaboratoryWork/modules/glfw
+	url = https://github.com/glfw/glfw
+[submodule "gl3w"]
+	path = OpenGLlaboratoryWork/modules/gl3w
+	url = https://github.com/skaslev/gl3w
+[submodule "glm"]
+	path = OpenGLlaboratoryWork/modules/glm
+	url = https://github.com/g-truc/glm

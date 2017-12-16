@@ -1,3 +1,0 @@
-Place this files in this directory:
-	gl3w.h
-	glcorearb.h
