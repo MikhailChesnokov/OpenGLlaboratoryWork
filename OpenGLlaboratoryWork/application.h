@@ -26,6 +26,8 @@ public:
 
 	static GLuint load_shader(const char* file, const GLenum type);
 
+	void application::load_model(const char* file_name, float * verices, GLushort * faces, int *vs, int *fs) const;
+
 	static GLboolean checkout_shader_compilation(const GLuint shader);
 
 	static GLboolean checkout_shader_link(const GLuint program);

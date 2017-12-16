@@ -11,6 +11,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <string>
+#include <sstream>
 
 application* application::app = nullptr;
 
@@ -105,6 +107,43 @@ GLuint application::load_shader(const char* file_name, const GLenum type)
 		return 0;
 
 	return shader;
+}
+
+void application::load_model(const char* file_name, float * verices, GLushort * faces, int *vs, int *fs) const
+{
+	int vertices_count = 0, faces_count = 0;
+	std::ifstream infile;
+	infile.open(file_name);
+	std::string line;
+	char c;
+	while (getline(infile, line))
+	{
+		std::istringstream iss(line);
+		switch (line[0])
+		{
+		case 'v': 
+			iss
+			>> c
+			>> verices[vertices_count++]
+			>> verices[vertices_count++]
+			>> verices[vertices_count++];
+			break;
+		case 'f': 
+			iss
+			>> c
+			>> faces[faces_count++]
+			>> faces[faces_count++]
+			>> faces[faces_count++];
+			faces[faces_count - 3]--;
+			faces[faces_count - 2]--;
+			faces[faces_count - 1]--;
+			break;
+		default: break;
+		}
+	}
+	infile.close();
+	*vs = vertices_count;
+	*fs = faces_count;
 }
 
 GLboolean application::checkout_shader_compilation(const GLuint shader)
