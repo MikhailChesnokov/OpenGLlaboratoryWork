@@ -109,7 +109,7 @@ GLuint application::load_shader(const char* file_name, const GLenum type)
 	return shader;
 }
 
-void application::load_model(const char* file_name, float * verices, GLushort * faces, int *vs, int *fs) const
+void application::load_model(const char* file_name, float* verices, GLushort* faces, int* vs, int* fs)
 {
 	int vertices_count = 0, faces_count = 0;
 	std::ifstream infile;
@@ -121,19 +121,19 @@ void application::load_model(const char* file_name, float * verices, GLushort * 
 		std::istringstream iss(line);
 		switch (line[0])
 		{
-		case 'v': 
+		case 'v':
 			iss
-			>> c
-			>> verices[vertices_count++]
-			>> verices[vertices_count++]
-			>> verices[vertices_count++];
+				>> c
+				>> verices[vertices_count++]
+				>> verices[vertices_count++]
+				>> verices[vertices_count++];
 			break;
-		case 'f': 
+		case 'f':
 			iss
-			>> c
-			>> faces[faces_count++]
-			>> faces[faces_count++]
-			>> faces[faces_count++];
+				>> c
+				>> faces[faces_count++]
+				>> faces[faces_count++]
+				>> faces[faces_count++];
 			faces[faces_count - 3]--;
 			faces[faces_count - 2]--;
 			faces[faces_count - 1]--;

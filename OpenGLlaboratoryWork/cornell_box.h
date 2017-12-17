@@ -5,7 +5,8 @@ class cornell_box : public application
 {
 public:
 	cornell_box(const int width, const int height, const char* title)
-		: application(width, height, title), program_(0), vao_(0)
+		: application(width, height, title), program_(0), vao_(0), room_verts_buffer_(0), room_faces_buffer_(0),
+		  move_uniform_location_(0), proj_uniform_location_(0), color_uniform_location_(0)
 	{
 	}
 
@@ -18,9 +19,11 @@ public:
 private:
 	GLuint program_;
 	GLuint vao_;
-	GLuint position_buffer;
-	GLuint index_buffer;
-	GLint mv_location;
-	GLint proj_location;
-	GLint color;
+
+	GLuint room_verts_buffer_;
+	GLuint room_faces_buffer_;
+
+	GLint move_uniform_location_;
+	GLint proj_uniform_location_;
+	GLint color_uniform_location_;
 };
