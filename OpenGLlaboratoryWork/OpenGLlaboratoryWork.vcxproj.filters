@@ -3,13 +3,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="application.cpp" />
-    <ClCompile Include="simple_triangle.cpp" />
     <ClCompile Include="modules\gl3w\src\gl3w.c" />
     <ClCompile Include="cornell_box.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
-    <ClInclude Include="simple_triangle.h" />
     <ClInclude Include="cornell_box.h" />
   </ItemGroup>
   <ItemGroup>
