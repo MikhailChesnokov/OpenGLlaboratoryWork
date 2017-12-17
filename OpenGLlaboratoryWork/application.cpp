@@ -148,18 +148,18 @@ void application::load_model(const char* file_name, float* verices, GLushort* fa
 
 GLboolean application::checkout_shader_compilation(const GLuint shader)
 {
-	GLint isCompiled = 0;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+	GLint is_compiled = 0;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &is_compiled);
 
-	if (isCompiled == GL_FALSE)
+	if (is_compiled == GL_FALSE)
 	{
 		std::cout << "Shader compilation error" << std::endl;
 
-		GLint maxLength = 0;
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+		GLint max_length = 0;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &max_length);
 
-		std::vector<GLchar> buffer(maxLength);
-		glGetShaderInfoLog(shader, maxLength, &maxLength, &buffer[0]);
+		std::vector<GLchar> buffer(max_length);
+		glGetShaderInfoLog(shader, max_length, &max_length, &buffer[0]);
 
 		std::cout << buffer.data() << std::endl;
 
@@ -173,15 +173,15 @@ GLboolean application::checkout_shader_compilation(const GLuint shader)
 
 GLboolean application::checkout_shader_link(const GLuint program)
 {
-	GLint isLinked = 0;
-	glGetProgramiv(program, GL_LINK_STATUS, static_cast<int *>(&isLinked));
-	if (isLinked == GL_FALSE)
+	GLint is_linked = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, static_cast<int *>(&is_linked));
+	if (is_linked == GL_FALSE)
 	{
-		GLint maxLength = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+		GLint max_length = 0;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &max_length);
 
-		std::vector<GLchar> info_log(maxLength);
-		glGetProgramInfoLog(program, maxLength, &maxLength, &info_log[0]);
+		std::vector<GLchar> info_log(max_length);
+		glGetProgramInfoLog(program, max_length, &max_length, &info_log[0]);
 
 		std::cout << info_log.data() << std::endl;
 
@@ -198,7 +198,7 @@ void application::init_app_params(const int width, const int height, const char*
 	appinfo_.window_height = height;
 
 	appinfo_.major_version = 4;
-	appinfo_.minor_version = 4;
+	appinfo_.minor_version = 6;
 
 	appinfo_.window_title = title;
 }
