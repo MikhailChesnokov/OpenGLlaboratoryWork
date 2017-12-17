@@ -1,6 +1,6 @@
-#version 440 core
+#version 460 core
 
-in vec4 position;
+layout (location = 0) in vec4 position;
 
 uniform mat4 mv_matrix;
 uniform mat4 proj_matrix;
