@@ -11,17 +11,11 @@ public:
 	virtual void run() const;
 
 
-	virtual void start()
-	{
-	}
+	virtual void start() { }
 
-	virtual void render(double time)
-	{
-	}
+	virtual void render(double time) { }
 
-	virtual void finish()
-	{
-	}
+	virtual void finish() { }
 
 
 	static GLuint load_shader(const char* file, const GLenum type);
@@ -49,21 +43,13 @@ protected:
 	GLFWwindow* window_;
 
 
-	virtual void on_key(int key, int action)
-	{
-	}
+	virtual void on_key(int key, int action) { }
 
-	virtual void on_resize(int width, int height)
-	{
-	}
+	virtual void on_resize(int width, int height) { }
 
-	virtual void on_mouse_button(int button, int action)
-	{
-	}
+	virtual void on_mouse_button(int button, int action) { }
 
-	virtual void on_mouse_move(int coord_x, int coords_y)
-	{
-	}
+	virtual void on_mouse_move(int coord_x, int coords_y) { }
 
 private:
 
