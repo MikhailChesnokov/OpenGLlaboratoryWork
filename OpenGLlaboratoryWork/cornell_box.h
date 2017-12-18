@@ -42,7 +42,7 @@ public:
 
 		glm::mat4 transform_matrix;
 
-		glm::vec3 diffuse_color;
+		glm::vec4 diffuse_color;
 
 		scene_object(): vao(0), vertices_buffer(0), faces_buffer(0) { }
 

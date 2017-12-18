@@ -7,8 +7,8 @@
 #include <iostream>
 using namespace glm;
 
-#define MAX_BUFFER_SIZE 1024
-#define DRAW_ELEMENTS 300
+#define MAX_BUFFER_SIZE 4096
+#define DRAW_ELEMENTS 4096
 
 mat4 cornell_box::get_transform_matrix(const vec3 translate_v, const vec3 rotate_v, const vec3 scale_v)
 {
@@ -77,11 +77,36 @@ void cornell_box::attach_perspective_matrix(GLint& proj_uniform_location, applic
 
 void cornell_box::set_objects_attributes(const float current_time)
 {
-	objects_["room"].transform_matrix = get_transform_matrix(vec3(0.0f, 0.0f, -1.0f), vec3(current_time * 0.08f, 0.0f, 0.0f), vec3(0.1f, 0.1f, 0.1f));
-	objects_["room"].diffuse_color = vec4(1.0, 0.1f, 0.2f, 0.5f);
+	objects_["room"].transform_matrix = get_transform_matrix(vec3(0.0f, 0.0f, -1.0f), vec3( 0.01f, 0.0f, 0.0f), vec3(0.1f, 0.1f, 0.1f));
+	objects_["room"].diffuse_color = vec4(0.0f, 0.1f, 0.8f, 1.0f);
 
-	objects_["sphere"].transform_matrix = objects_["room"].transform_matrix;
-	objects_["sphere"].diffuse_color = vec4(6.0, 0.3f, 0.2f, 0.1f);
+	objects_["sphere"].transform_matrix = get_transform_matrix(vec3(-0.07f, -0.07f, -1.0f), vec3(current_time * 0.05f, current_time * 0.0f, 0.0f), vec3(0.03f, 0.03f, 0.03f));
+	objects_["sphere"].diffuse_color = vec4(0.5f, 0.8f, 0.8f, 1.0f);
+
+	objects_["rocks"].transform_matrix = get_transform_matrix(vec3(0.0f, 0.046f, -1.05f), vec3(3.14f, -0.05f, -0.1f), vec3(0.1f, 0.1f, 0.1f));
+	objects_["rocks"].diffuse_color = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+
+	objects_["trees"].transform_matrix = get_transform_matrix(vec3(0.0f, 0.046f, -1.05f), vec3(3.14f, 0.0f, -0.00 + sin(current_time) * 0.01f), vec3(0.1f, 0.1f, 0.1f));
+	objects_["trees"].diffuse_color = vec4(0.0f, 0.8f, 0.1f, 1.0f);
+
+
+	objects_["snow1"].transform_matrix = get_transform_matrix(vec3(-0.01 + sin(current_time) * 0.0025f, -0.00 + current_time * 0.0023f, -1.0f), vec3(current_time * 0.05f, 0.0f, current_time * 0.0f), vec3(0.001f, 0.001f, 0.001f));
+	objects_["snow1"].diffuse_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	objects_["snow2"].transform_matrix = get_transform_matrix(vec3(+0.03 + sin(current_time) * 0.001f, -0.07 + current_time * 0.0021f, -1.0f), vec3(current_time * 0.05f, 0.0f, current_time * 0.0f), vec3(0.001f, 0.001f, 0.001f));
+	objects_["snow2"].diffuse_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	objects_["snow3"].transform_matrix = get_transform_matrix(vec3(-0.05 + sin(current_time) * 0.003f, -0.03 + current_time * 0.0025f, -1.0f), vec3(current_time * 0.05f, 0.0f, current_time * 0.0f), vec3(0.001f, 0.001f, 0.001f));
+	objects_["snow3"].diffuse_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	objects_["snow4"].transform_matrix = get_transform_matrix(vec3(+0.07 + sin(current_time) * 0.002f, -0.09 + current_time * 0.0027f, -1.0f), vec3(current_time * 0.05f, 0.0f, current_time * 0.0f), vec3(0.001f, 0.001f, 0.001f));
+	objects_["snow4"].diffuse_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	objects_["snow5"].transform_matrix = get_transform_matrix(vec3(-0.0 + sin(current_time) * 0.001f, -0.08 + current_time * 0.0024f, -1.0f), vec3(current_time * 0.05f, 0.0f, current_time * 0.0f), vec3(0.001f, 0.001f, 0.001f));
+	objects_["snow5"].diffuse_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	objects_["snow6"].transform_matrix = get_transform_matrix(vec3(0.08 + sin(current_time) * 0.002f, -0.02 + current_time * 0.0025f, -1.0f), vec3(current_time * 0.05f, 0.0f, current_time * 0.0f), vec3(0.001f, 0.001f, 0.001f));
+	objects_["snow6"].diffuse_color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void cornell_box::draw_objects()
@@ -90,7 +115,7 @@ void cornell_box::draw_objects()
 	{
 		scene_object obj = object.second;
 
-		glUniform4f(color_uniform_location_, obj.diffuse_color.x, obj.diffuse_color.y, obj.diffuse_color.z, obj.diffuse_color.x);
+		glUniform4f(color_uniform_location_, obj.diffuse_color.x, obj.diffuse_color.y, obj.diffuse_color.z, obj.diffuse_color.w);
 		glUniformMatrix4fv(move_uniform_location_, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&obj.transform_matrix));
 
 		glBindVertexArray(object.second.vao);
@@ -111,6 +136,15 @@ void cornell_box::start()
 
 	objects_["room"] = scene_object("../OpenGLlaboratoryWork/models/cube.obj");
 	objects_["sphere"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
+	objects_["rocks"] = scene_object("../OpenGLlaboratoryWork/models/rocks.obj");
+	objects_["trees"] = scene_object("../OpenGLlaboratoryWork/models/trees.obj");
+
+	objects_["snow1"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
+	objects_["snow2"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
+	objects_["snow3"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
+	objects_["snow4"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
+	objects_["snow5"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
+	objects_["snow6"] = scene_object("../OpenGLlaboratoryWork/models/sphere.obj");
 }
 
 void cornell_box::render(const double curr_time)
@@ -119,9 +153,11 @@ void cornell_box::render(const double curr_time)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearBufferfv(GL_COLOR, 0, background_color);
 
-	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 	glEnable(GL_POLYGON_SMOOTH);
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 

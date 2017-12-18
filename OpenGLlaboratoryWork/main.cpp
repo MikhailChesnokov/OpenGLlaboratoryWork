@@ -4,7 +4,7 @@
 
 int main()
 {
-	const auto app = new cornell_box(850, 850, "Box");
+	const auto app = new cornell_box(900, 900, "Box");
 	app->run();
 	delete app;
 
